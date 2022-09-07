@@ -26,6 +26,7 @@ namespace MoanaSoftwareTrello.Controllers
             {
                result = await _apiSerice.Login(userModel);
                 if (result == null) throw new Exception("Error Auth");
+                
                 HttpContext.Session.SetString("jwt", result.Token);
 
                 return RedirectToAction("Index", "Home");

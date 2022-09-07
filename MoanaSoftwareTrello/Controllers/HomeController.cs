@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using MoanaSoftwareTrello.Models;
 using MoanaSoftwareTrello.Services;
 using System.Diagnostics;
+using System.Dynamic;
 
 namespace MoanaSoftwareTrello.Controllers
 {
@@ -10,26 +11,32 @@ namespace MoanaSoftwareTrello.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private ApiService _apiService;
-
+        public string[] Status;
         public HomeController(ILogger<HomeController> logger, ApiService apiService)
         {
             _logger = logger;
             _apiService = apiService;
+            Status = new string[] { "Pending", "In_progress", "Blocked", "Done" };
+
         }
         //need adding authorizated
         public async Task<IActionResult> Index()
         {
+            List<GetAllCardResponse> cards;
             if (HttpContext.Session.GetString("jwt") is null) return RedirectToAction("Index", "Login");
-            
-                var value = Request.Cookies["jwt"];
+            var value = HttpContext.Session.GetString("jwt");
+
             try
             {
-                var x = await _apiService.GetAllCard(value);
-                ;
+                cards = await _apiService.GetAllCard(value);
+                dynamic model = new ExpandoObject();
+                model.cards = cards;
+                model.status = Status;
+                return View(model);
+
             }
             catch (Exception e)
             {
-
                 _logger.LogError(e.Message);
             }
             return View();
