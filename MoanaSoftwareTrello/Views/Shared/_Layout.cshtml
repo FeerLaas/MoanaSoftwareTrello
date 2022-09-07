@@ -9,8 +9,10 @@
     <link rel="stylesheet" href="~/css/dragula.min.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/MoanaSoftwareTrello.styles.css" asp-append-version="true" />
 </head>
-<body>
-    <header>
+<body class="overflow-hidden h-100 d-flex flex-column ">
+    
+
+    <header class="d-flex flex-column ">
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">MoanaSoftwareTrello</a>
@@ -23,7 +25,7 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
-                        <li class="nav-item"> 
+                        <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Login" asp-action="Logout">Logout</a>
                         </li>
                     </ul>
@@ -31,13 +33,15 @@
             </div>
         </nav>
     </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
+    <div class="d-flex flex-column">
+        <div class="container">
+        @RenderBody()
+        </div>
     </div>
 
-    <footer class="border-top footer text-muted">
+
+
+    <footer class="border-top footer text-muted d-flex flex-column">
         <div class="container">
             &copy; 2022 - MoanaSoftwareTrello - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>

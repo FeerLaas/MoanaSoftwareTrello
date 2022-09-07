@@ -6,24 +6,27 @@
 <div class="row">
     @for (int i = 0; i < Model.status.Length; i++)
     {
-        @*<span>@Model.status[i] @i</span>*@
-        <div class="col-12 col-md-6 col-lg-3 p-3">
-            <div class="content box-shadow" id="@Model.status[i]">
-                @for (int j = 0; j < Model.cards.Count; j++)
-                {
-                    @if ((int)Model.cards[j].Status == i)
+        <div class="col-12 col-md-6 col-lg-3 p-3 border-2">
+            <div class="box-shadow">
+                <div class="p-2"><h7>@Model.status[i]</h7></div>
+                <div class="content position-sticky scroll-x" id="@Model.status[i]">
+                    @for (int j = 0; j < Model.cards.Count; j++)
                     {
-                        <!-- card -->
-                        <div class="card" style="order: @Model.cards[j].Position" id="@Model.cards[j].Id">
-                            <div class="card-body">
-                                <h5 class="card-title">@Model.cards[j].Title</h5>
-                                <p class="card-text">@Model.cards[j].Description</p>
-                                <a href="#" class="card-link">Edit</a>
+                        @if ((int)Model.cards[j].Status == i)
+                        {
+                            <!-- card -->
+                            <div class="card" style="order: @Model.cards[j].Position" id="@Model.cards[j].Id">
+                                <div class="card-body">
+                                    <h5 class="card-title">@Model.cards[j].Title</h5>
+                                    <p class="card-text">@Model.cards[j].Description</p>
+                                    <a href="#" class="card-link">Edit</a>
+                                </div>
                             </div>
-                        </div>
-                        <!-- card -->
+                            <!-- card -->
+                        }
                     }
-                }
+                </div>
+                <div class="px-2 py-1"><a href="#">Add Card</a></div>
             </div>
         </div>
     }
@@ -32,16 +35,16 @@
 @section scripts {
 
     <script type="text/javascript">
-        @{string statusToDragula ="";}
+        @{
+        string statusToDragula = "";
+    }
         $(document).ready(function () {
-            @foreach (var stat in Model.status)
-        {
-            statusToDragula += stat + ",";
-        }
-            dragula([@statusToDragula]);
+    @foreach (var stat in Model.status)
+    {
+        statusToDragula += stat + ",";
+    }
+                dragula([@statusToDragula]);
 
         });
 
-    </script>
-
-}                       
+</script>}

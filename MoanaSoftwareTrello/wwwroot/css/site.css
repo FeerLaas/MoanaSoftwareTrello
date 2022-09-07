@@ -1,5 +1,7 @@
 html {
-  font-size: 14px;
+    font-size: 14px;
+    height: 100%;
+    overflow: hidden;
 }
 
 @media (min-width: 768px) {
@@ -11,8 +13,4 @@ html {
 html {
   position: relative;
   min-height: 100%;
-}
-
-body {
-  margin-bottom: 60px;
 }

@@ -4,3 +4,6 @@
 .box-shadow {
     box-shadow: 0 0 10px 0 rgb(6 30 98 / 30%);
 }
+.content{
+    min-height:15px;
+}
