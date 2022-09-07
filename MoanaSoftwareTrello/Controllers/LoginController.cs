@@ -1,11 +1,17 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MoanaSoftwareTrello.Models;
+using MoanaSoftwareTrello.Services;
 
 namespace MoanaSoftwareTrello.Controllers
 {
     public class LoginController : Controller
     {
-        static HttpClient client = new HttpClient();
+        private ApiService _apiSerice;
+        public LoginController(ApiService apiService)
+        {
+            _apiSerice = apiService;
+        }
+
         [HttpGet]
         public IActionResult Index(bool logged = false)
         {
