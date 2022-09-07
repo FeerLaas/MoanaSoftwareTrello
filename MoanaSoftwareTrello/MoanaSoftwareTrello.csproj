@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\img\" />
+    <None Include="wwwroot\images\login-bg.jpg" />
   </ItemGroup>
 
 </Project>

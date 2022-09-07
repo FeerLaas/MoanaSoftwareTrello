@@ -1,0 +1,46 @@
+﻿body{
+    overflow:hidden;
+}
+.hero-wrap {
+    position: relative;
+    overflow: hidden;
+}
+.bg-wrap {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+}
+.hero-left-border-radius {
+    border-top-left-radius: 0px !important;
+    border-bottom-left-radius: 0px !important;
+}
+.hero-right-border-radius {
+    border-top-right-radius: 0px !important;
+    border-bottom-right-radius: 0px !important;
+}
+.hero-mask {
+    z-index: 1;
+    opacity:0.9;
+}
+.hero-bg {
+    z-index: 0;
+    background-attachment: fixed;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    transition: background-image 300ms ease-in 200ms;
+    background-attachment: scroll;
+
+}
+.hero-content {
+    
+    position: relative;
+    z-index: 2;
+}
+.min-vh-80{
+    min-height:80vh;
+}
