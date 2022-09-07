@@ -1,13 +1,43 @@
-﻿namespace MoanaSoftwareTrello.Services
+﻿using MoanaSoftwareTrello.Models;
+
+namespace MoanaSoftwareTrello.Services
 {
     public class ApiService //: IHostedService
     {
         private swaggerClient swc;
         public ApiService()
         {
-             
+            swc = new swaggerClient("http://193.201.187.29:84", new HttpClient());
+        }
+        public async Task<SignInResponse> Login(User loginUser)
+        {
+            SignInResponse t;
+            UserCredentialRequest user = new UserCredentialRequest();
+            user.Email = loginUser.Email;
+            user.Password = loginUser.Password;
+            return await swc.SignInAsync(user);
         }
 
+
+        public async Task<string> RegisterUser(User sourceUser)
+        {
+            await Task.Run(async () =>
+            {
+                UserCredentialRequest user = new UserCredentialRequest();
+                user.Email = sourceUser.Email;
+                user.Password = sourceUser.Password;
+                await swc.SignUpAsync(user);
+            });
+            return "success";
+        }
+        public async Task<List<GetAllCardResponse>> GetAllCard(string token)
+        {
+            return (List<GetAllCardResponse>)await swc.GetAllCardAsync(token);
+        }
+        public async Task<GetCardResponse> GetCardById(Guid? cardId, string token)
+        {
+            return await swc.GetByIdAsync(cardId, token);
+        }
         //public Task StartAsync(CancellationToken cancellationToken)
         //{
         //    swc = new swaggerClient("http://193.201.187.29:84", new HttpClient());

@@ -1,6 +1,7 @@
 ﻿@model MoanaSoftwareTrello.Models.User
 
 @{
+    Layout = "_LoginLayout";
     ViewData["Title"] = "Register";
 }
 
@@ -28,8 +29,8 @@
                     <div class="row">
                         <div class="col-11 col-lg-10 mx-auto">
                             <h3 class="text-white text-center mb-4">Sign Up</h3>
-                            <form asp-action="Index" class="form-dark">
-                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <form asp-action="Register" class="form-dark">
+                                <div class="text-danger">@ViewBag.ErrorMessage</div>
                                 <div class="mb-3">
                                     <label asp-for="Email" class="form-label text-light">Email Address</label>
                                     <input asp-for="Email" type="email" class="form-control" required placeholder="Enter Email">
@@ -42,7 +43,7 @@
                                 </div>
                                 <div class="mb-3 mt-4">
                                     <div class="form-check text-2">
-                                        <input id="agree" name="agree" class="form-check-input" type="checkbox">
+                                        <input id="agree" name="agree" class="form-check-input" type="checkbox" required>
                                         <label class="form-check-label text-light" for="agree">I agree to the Terms and Privacy Policy.</label>
                                     </div>
                                 </div>

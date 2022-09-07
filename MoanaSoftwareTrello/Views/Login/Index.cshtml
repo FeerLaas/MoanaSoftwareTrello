@@ -1,12 +1,13 @@
 ﻿@model MoanaSoftwareTrello.Models.User
 
 @{
+    Layout = "_LoginLayout";
     ViewData["Title"] = "Login";
     
 }
 
 
-<div id="main-wrapper">
+<div id="main-wrapper" class="w-100 h-100 m-auto">
     <div class="container">
         <div class="row g-0 min-vh-80 py-4 py-md-5">
             <div class="col-lg-7 shadow-lg">
@@ -32,7 +33,7 @@
                         <div class="col-11 col-lg-10 mx-auto">
                             <h3 class="text-white text-center mb-4">Sign In</h3>
                             <form asp-action="Index" class="form-dark">
-                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                <div class="text-danger">@ViewBag.ErrorMessage</div>
                                 <div class="mb-3">
                                     <label asp-for="Email" class="form-label text-light">Email Address</label>
                                     <input asp-for="Email" type="email" class="form-control" required placeholder="Enter Email">

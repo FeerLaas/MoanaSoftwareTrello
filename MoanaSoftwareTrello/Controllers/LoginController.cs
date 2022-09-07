@@ -19,20 +19,53 @@ namespace MoanaSoftwareTrello.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult Index(User userModel)
+        public async Task<IActionResult> Index(User userModel)
         {
-            // login ...
-            // login is valid add token to local
-            bool success = true;
-            if (success) return RedirectToAction("Index", "Home");
+            SignInResponse result;
+            try
+            {
+               result = await _apiSerice.Login(userModel);
+                if (result == null) throw new Exception("Error Auth");
+                HttpContext.Session.SetString("jwt", result.Token);
+
+                return RedirectToAction("Index", "Home");
+            }
+            catch (Exception e)
+            {
+                ViewBag.ErrorMessage = e.Message;
+                return View();
+            }
+
+
+        }
+        [HttpPost]
+        public async Task<IActionResult> Register(User userModel)
+        {
+            string result;
+            try
+            {
+                result = await _apiSerice.RegisterUser(userModel);
+                if (result == null) throw new Exception("Error Auth");
+                return RedirectToAction("Index", "Home");
+            }
+            catch (Exception e)
+            {
+                ViewBag.ErrorMessage = e.Message;
+                return View("Register", userModel);
+            }
+            return RedirectToAction("Index", "Login");
+           
+        }
+        [HttpGet]
+        public IActionResult Register()
+        {
             return View();
         }
         [HttpGet]
-        public IActionResult Register(bool logged = false)
+        public IActionResult Logout()
         {
-            if (logged) RedirectToAction("Index", "Home");
-            User userModel = new User();
-            return View(userModel);
+            HttpContext.Session.Clear();
+            return View("Index");
         }
     }
 }

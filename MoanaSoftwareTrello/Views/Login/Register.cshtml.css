@@ -1,6 +1,9 @@
 ﻿body {
     overflow: hidden;
 }
+header {
+    display: none;
+}
 .hero-wrap {
     position: relative;
     overflow: hidden;

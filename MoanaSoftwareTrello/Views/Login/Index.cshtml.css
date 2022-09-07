@@ -1,7 +1,4 @@
-﻿body{
-    overflow:hidden;
-}
-.hero-wrap {
+﻿.hero-wrap {
     position: relative;
     overflow: hidden;
 }
