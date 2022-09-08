@@ -46,6 +46,10 @@ namespace MoanaSoftwareTrello.Services
         {
             await swc.UpdateAsync(card, token);
         }
-
+        public async Task DeleteCard(DeleteCardRequest card,string token)
+        {
+            await swc.DeleteAsync(card, token);
+        }
+        
     }
 }

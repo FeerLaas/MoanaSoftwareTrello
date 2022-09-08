@@ -12,6 +12,7 @@
 
 using System.Net.Http.Headers;
 using System.Net.Http;
+using NuGet.Common;
 
 namespace MoanaSoftwareTrello
 {
@@ -516,16 +517,16 @@ namespace MoanaSoftwareTrello
         /// <summary>Deletes a specific card by its guid</summary>
         /// <returns>Ok: Card deleted successfully</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task DeleteAsync(DeleteCardRequest body)
+        public System.Threading.Tasks.Task DeleteAsync(DeleteCardRequest body, string token)
         {
-            return DeleteAsync(body, System.Threading.CancellationToken.None);
+            return DeleteAsync(body, System.Threading.CancellationToken.None,token);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>Deletes a specific card by its guid</summary>
         /// <returns>Ok: Card deleted successfully</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task DeleteAsync(DeleteCardRequest body, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task DeleteAsync(DeleteCardRequest body, System.Threading.CancellationToken cancellationToken,string token)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/Cards/Delete");
@@ -539,6 +540,7 @@ namespace MoanaSoftwareTrello
                     content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
                     request_.Content = content_;
                     request_.Method = new System.Net.Http.HttpMethod("DELETE");
+                    request_.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
                     PrepareRequest(client_, request_, urlBuilder_);
                     var url_ = urlBuilder_.ToString();

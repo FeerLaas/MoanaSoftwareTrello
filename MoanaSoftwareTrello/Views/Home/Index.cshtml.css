@@ -9,6 +9,6 @@
 }
 .max-vh {
     max-height: 80vh;
-    overflow: scroll;
+    overflow: auto;
     overflow-x: hidden;
 }

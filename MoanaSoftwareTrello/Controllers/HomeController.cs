@@ -137,7 +137,7 @@ namespace MoanaSoftwareTrello.Controllers
             return PartialView("EditCard", card);
         }
         [HttpGet]
-        public IActionResult ajaxReloadColumn(string column)
+        public IActionResult ajaxReloadColumn(string column,string attr)
         {
             token = HttpContext.Session.GetString("jwt");
             if (token is null) return RedirectToAction("Index", "Login");
@@ -146,7 +146,18 @@ namespace MoanaSoftwareTrello.Controllers
             var columnNumber = (Status)System.Enum.Parse(typeof(StatusEnum), column);
             //var color = (Status)System.Enum.Parse(typeof(StatusEnum), column);
             ViewBag.data = cards.Where(x => x.Status == columnNumber).OrderBy(x => x.Position).ToList();
+            ViewBag.name = column;
+            ViewBag.attributes = attr;
             return PartialView("ajaxReloadColumn");
+        }
+        [HttpDelete]
+        public IActionResult DeleteCard(Guid id)
+        {
+            token = HttpContext.Session.GetString("jwt");
+            if (token is null) return RedirectToAction("Index", "Login");
+            _apiService.DeleteCard(new DeleteCardRequest { Id=id},token);
+
+            return PartialView("EditCard");
         }
         public IActionResult Privacy()
         {
