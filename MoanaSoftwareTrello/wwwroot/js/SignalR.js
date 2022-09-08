@@ -25,7 +25,7 @@ function getColumnNumber(id) {
 function updateRow(source) {
     //update from row
     var cards = Array.from(document.getElementById(source["from"]).children);
-    console.log(cards);
+
     cards.forEach(function (card) {if (card.id) updateCard(card.id, getKeyByValue(columns, source["from"]), getRowNumber(card.id)) });
     if (source["from"] === source["to"]) return;
     cards = Array.from(document.getElementById(source["to"]).children);
@@ -47,7 +47,7 @@ async function updateCard(id, status, position) {
 // ----------  SignalR Lisen ----------
 
 connection.on("ReceiveCardPos", function (id, from, to) {
-    console.log(`${id} moved from ${from} to ${to} and update columns`);
+
     var attr = $(`#${from}`)[0]["attributes"][0].name;
     $(`#${from}`).load(loadContainerUrl + "?column=" + from + "&attr="+attr);
     
@@ -59,11 +59,10 @@ connection.on("ReceiveCardPos", function (id, from, to) {
 // ----------  SignalR Open ----------
 
 connection.start().then(function () {
-    console.log("start");
 }).catch(function (err) {
     return console.error(err.toString());
 });
-// ----------  SignalR +Dragula Inic ----------
+// ----------  SignalR + Dragula Inic ----------
 
 $(document).ready(function () {
 
@@ -77,7 +76,6 @@ $(document).ready(function () {
     }).on('drop', function (el, target) {
         movingObj["to"] = target.id;
         updateRow(movingObj);
-        console.log("updated data");
         connection.invoke("UpdateCardPos", movingObj["obj"], movingObj["from"], movingObj["to"]).catch(function (err) {
             return console.error(err.toString());
         });
@@ -93,7 +91,6 @@ function eventLoadToModal(obj) {
     // -----------  Modal Open  -----------
     
     var PlaceHolderElement = $('#modalLocation');
-    console.log($(obj + ' a[data-toggle="ajax-modal"]'));
     $(obj + ' a[data-toggle="ajax-modal"]').click(function (e) {
         var url = $(this).data('url');
         $.get(url).done(function (data) {
@@ -145,14 +142,6 @@ function eventLoadToModal(obj) {
                     });
                 }
             });
-            return;
-            $.delete(destroyCardUrl, $("#modifyCard #Id").val()).done(function (d) {
-                PlaceHolderElement.find('.modal').modal('hide');
-
-                connection.invoke("UpdateCardPos", "0", row, row).catch(function (err) {
-                    return console.error(err.toString());
-                });
-            })
         }
     })
     // ----------  Card Close  -----------

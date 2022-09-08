@@ -50,6 +50,11 @@ namespace MoanaSoftwareTrello.Services
         {
             await swc.DeleteAsync(card, token);
         }
-        
+        public async Task<List<GetAllUserResponse>> GetAllUser(string token)
+        {
+            return (List<GetAllUserResponse>)await swc.GetAllAsync(token);
+        }
+
+
     }
 }

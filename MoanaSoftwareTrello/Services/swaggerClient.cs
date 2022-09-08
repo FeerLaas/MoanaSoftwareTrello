@@ -813,16 +813,16 @@ namespace MoanaSoftwareTrello
         /// <summary>Lists all the users</summary>
         /// <returns>Ok: All cards retrieved successfully</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<System.Collections.Generic.ICollection<GetAllUserResponse>> GetAllAsync()
+        public System.Threading.Tasks.Task<System.Collections.Generic.ICollection<GetAllUserResponse>> GetAllAsync(string token)
         {
-            return GetAllAsync(System.Threading.CancellationToken.None);
+            return GetAllAsync(System.Threading.CancellationToken.None,token);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>Lists all the users</summary>
         /// <returns>Ok: All cards retrieved successfully</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<GetAllUserResponse>> GetAllAsync(System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<GetAllUserResponse>> GetAllAsync(System.Threading.CancellationToken cancellationToken,string token)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/Users/GetAll");
@@ -834,6 +834,7 @@ namespace MoanaSoftwareTrello
                 {
                     request_.Method = new System.Net.Http.HttpMethod("GET");
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
+                    request_.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
                     PrepareRequest(client_, request_, urlBuilder_);
                     var url_ = urlBuilder_.ToString();

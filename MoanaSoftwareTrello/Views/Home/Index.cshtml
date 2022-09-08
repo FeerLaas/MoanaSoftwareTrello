@@ -15,11 +15,12 @@
                         @if ((int)Model.cards[j].Status == i)
                         {
                             <div class="card" data-order="@Model.cards[j].Position" id="@Model.cards[j].Id">
-                                <a data-toggle="ajax-modal" data-target="#editCard" data-url="@Url.Action("Edit")/@Model.cards[j].Id">
+                                <a data-toggle="ajax-modal" data-target="#showCard" data-url="@Url.Action("showCard")/@Model.cards[j].Id">
                                 <div class="card-body">
                                     <h5 class="card-title">@Model.cards[j].Title</h5>
                                     <p class="card-text">@Model.cards[j].Description</p>
-                                    <a class="btn btn-warning" data-toggle="ajax-modal" data-target="#editCard" data-url="@Url.Action("Edit")/@Model.cards[j].Id">Edit</a>
+                                        <a class="btn btn-success" data-toggle="ajax-modal" data-target="#showCard" data-url="@Url.Action("showCard")/@Model.cards[j].Id">Show</a>
+                                     <a class="btn btn-warning" data-toggle="ajax-modal" data-target="#editCard" data-url="@Url.Action("Edit")/@Model.cards[j].Id">Edit</a>
                                 </div>
                                 </a>
                             </div>

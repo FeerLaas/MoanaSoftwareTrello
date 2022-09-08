@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using MoanaSoftwareTrello.Models;
 using MoanaSoftwareTrello.Services;
 using System.Diagnostics;
@@ -13,12 +14,14 @@ namespace MoanaSoftwareTrello.Controllers
         private ApiService _apiService;
         public string[] Status;
         private string? token;
+        protected List<GetAllUserResponse> Authors; 
         public enum StatusEnum {Pending=0, In_progress,Blocked,Done};
         public HomeController(ILogger<HomeController> logger, ApiService apiService)
         {
             _logger = logger;
             _apiService = apiService;
             Status = new string[] { "Pending", "In_progress", "Blocked", "Done" };
+            
             
         }
         //need adding authorizated
@@ -74,9 +77,17 @@ namespace MoanaSoftwareTrello.Controllers
 
             if (id == null) return NotFound();
             
+            
             try
             {
+                if (Authors is null) Authors = await _apiService.GetAllUser(token);
+                ViewBag.authors = Authors.Select(i => new SelectListItem
+                {
+                    Value = i.Id.ToString(),
+                    Text = i.Email
+                }).ToList();
                 var card = await _apiService.GetCardById(id.ToString(), token);
+                
                 return PartialView("EditCard", card );
 
             }
@@ -90,7 +101,6 @@ namespace MoanaSoftwareTrello.Controllers
         {
             token = HttpContext.Session.GetString("jwt");
             if (token is null) return RedirectToAction("Index", "Login");
-
 
             if (card == null)  return NotFound();
             
@@ -119,7 +129,7 @@ namespace MoanaSoftwareTrello.Controllers
             {
                 updateCard.Title = card.Title;
                 updateCard.Description = card.Description;
-                updateCard.AsigneeId = originalCard.AsigneeId;
+                updateCard.AsigneeId = card.AsigneeId;
                 updateCard.Position = originalCard.Position;
                 updateCard.Status = originalCard.Status;
             }
@@ -158,6 +168,32 @@ namespace MoanaSoftwareTrello.Controllers
             _apiService.DeleteCard(new DeleteCardRequest { Id=id},token);
 
             return PartialView("EditCard");
+        }
+        [HttpGet]
+        public async Task<IActionResult> showCard(Guid? id)
+        {
+            token = HttpContext.Session.GetString("jwt");
+            if (token is null) return RedirectToAction("Index", "Login");
+
+            if (id == null) return NotFound();
+
+            try
+            {
+                if (Authors is null) Authors = await _apiService.GetAllUser(token);
+                ViewBag.authors = Authors.Select(i => new SelectListItem
+                {
+                    Value = i.Id.ToString(),
+                    Text = i.Email
+                }).ToList();
+
+                var card = await _apiService.GetCardById(id.ToString(), token);
+                return PartialView("showCard", card);
+
+            }
+            catch (Exception e)
+            {
+                return NotFound();
+            }
         }
         public IActionResult Privacy()
         {
