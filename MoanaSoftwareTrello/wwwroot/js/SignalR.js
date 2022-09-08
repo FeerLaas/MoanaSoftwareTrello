@@ -34,7 +34,11 @@ async function updateCard(id, status, position) {
 
 
 connection.on("ReceiveCardPos", function (id, from, to) {
-    console.log(`${id} moved from ${from} to ${to}`);
+    console.log(`${id} moved from ${from} to ${to} and update columns`);
+    console.log($(`#${from}`));
+    $(`#${from}`).load(loadContainerUrl + "?column=" + from);
+    if (from === to) return;
+    $(`#${to}`).load(loadContainerUrl + "?column=" + to);
 });
 
 
@@ -56,16 +60,10 @@ $(document).ready(function () {
     }).on('drop', function (el, target) {
         movingObj["to"] = target.id;
         updateRow(movingObj);
-        //$.post(updateCardPosUrl + "?pos=true", {
-        //    "id": movingObj["obj"],
-        //    "status": getKeyByValue(columns, movingObj['to']),
-        //    "position": getRowNumber(movingObj["obj"])
-        //}).done(function () {
-        //    console.log("success")
-        //});
+        console.log("updated data");
         connection.invoke("UpdateCardPos", movingObj["obj"], movingObj["from"], movingObj["to"]).catch(function (err) {
             return console.error(err.toString());
-    });
+        });
 
-});
+    });
 });

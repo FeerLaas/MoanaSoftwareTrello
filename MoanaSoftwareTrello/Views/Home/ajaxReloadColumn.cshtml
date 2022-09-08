@@ -1,0 +1,15 @@
+﻿
+
+            @for (int j = 0; j < @ViewBag.data.Count; j++)
+            {
+
+                    <div class="card" data-order="@ViewBag.data[j].Position" id="@ViewBag.data[j].Id">
+                        <a data-toggle="ajax-modal" data-target="#editCard" data-url="@Url.Action("Edit")/@ViewBag.data[j].Id">
+                            <div class="card-body">
+                                <h5 class="card-title">@ViewBag.data[j].Title</h5>
+                                <p class="card-text">@ViewBag.data[j].Description</p>
+                                <a class="btn btn-warning" data-toggle="ajax-modal" data-target="#editCard" data-url="@Url.Action("Edit")/@ViewBag.data[j].Id">Edit</a>
+                            </div>
+                        </a>
+                    </div>
+            }

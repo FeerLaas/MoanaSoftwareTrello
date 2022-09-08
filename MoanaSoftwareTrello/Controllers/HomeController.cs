@@ -13,12 +13,13 @@ namespace MoanaSoftwareTrello.Controllers
         private ApiService _apiService;
         public string[] Status;
         private string? token;
+        public enum StatusEnum {Pending=0, In_progress,Blocked,Done};
         public HomeController(ILogger<HomeController> logger, ApiService apiService)
         {
             _logger = logger;
             _apiService = apiService;
             Status = new string[] { "Pending", "In_progress", "Blocked", "Done" };
-
+            
         }
         //need adding authorizated
         public async Task<IActionResult> Index()
@@ -26,7 +27,6 @@ namespace MoanaSoftwareTrello.Controllers
             List<GetAllCardResponse> cards;
             token = HttpContext.Session.GetString("jwt");
             if (token is null) return RedirectToAction("Index", "Login");
-            
 
             try
             {
@@ -135,6 +135,18 @@ namespace MoanaSoftwareTrello.Controllers
                 ViewBag.Error = e.Message;
             }
             return PartialView("EditCard", card);
+        }
+        [HttpGet]
+        public IActionResult ajaxReloadColumn(string column)
+        {
+            token = HttpContext.Session.GetString("jwt");
+            if (token is null) return RedirectToAction("Index", "Login");
+            Thread.Sleep(200); // bad idea
+            var cards = _apiService.GetAllCard(token).Result;
+            var columnNumber = (Status)System.Enum.Parse(typeof(StatusEnum), column);
+            //var color = (Status)System.Enum.Parse(typeof(StatusEnum), column);
+            ViewBag.data = cards.Where(x => x.Status == columnNumber).OrderBy(x => x.Position).ToList();
+            return PartialView("ajaxReloadColumn");
         }
         public IActionResult Privacy()
         {

@@ -49,8 +49,8 @@
 
 
         var columns = @Html.Raw(Json.Serialize(Model.status));
-        
-        
+
+        const loadContainerUrl = "@Url.Action("ajaxReloadColumn")";
         const updateCardPosUrl = "@Url.Action("EditCard")";
 
     </script>
