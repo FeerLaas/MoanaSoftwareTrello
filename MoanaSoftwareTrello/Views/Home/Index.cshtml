@@ -1,41 +1,12 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
-@*teszt*@
-<div class="container">
-    <div class="row">&nbsp;</div>
-    <div class="row">
-        <div class="col-2">User</div>
-        <div class="col-4"><input type="text" id="userInput" /></div>
-    </div>
-    <div class="row">
-        <div class="col-2">Message</div>
-        <div class="col-4"><input type="text" id="messageInput" /></div>
-    </div>
-    <div class="row">&nbsp;</div>
-    <div class="row">
-        <div class="col-6">
-            <input type="button" id="sendButton" value="Send Message" />
-        </div>
-    </div>
-</div>
-<div class="row">
-    <div class="col-12">
-        <hr />
-    </div>
-</div>
-<div class="row">
-    <div class="col-6">
-        <ul id="messagesList"></ul>
-    </div>
-</div>
-@*teszt*@
 
 <div id="modalLocation"></div>
 <div class="row">
     @for (int i = 0; i < Model.status.Length; i++)
     {
-        <div class="col-12 col-md-6 col-lg-3 p-3 border-2">
+        <div class="col-12 col-md-6 col-lg-3 max-vh p-3 border-2">
             <div class="box-shadow">
                 <div class="p-2"><h7>@Model.status[i]</h7></div>
                 <div class="content position-sticky scroll-x" id="@Model.status[i]">
@@ -44,36 +15,38 @@
                         @if ((int)Model.cards[j].Status == i)
                         {
                             <div class="card" style="order: @Model.cards[j].Position" id="@Model.cards[j].Id">
+                                <a data-toggle="ajax-modal" data-target="#editCard" data-url="@Url.Action("Edit")/@Model.cards[j].Id">
                                 <div class="card-body">
                                     <h5 class="card-title">@Model.cards[j].Title</h5>
                                     <p class="card-text">@Model.cards[j].Description</p>
-                                    <button data-toggle="ajax-modal" data-target="#editCard" data-url="@Url.Action("Edit")/@Model.cards[j].Id">Edit</button>
+                                    <a class="btn btn-warning" data-toggle="ajax-modal" data-target="#editCard" data-url="@Url.Action("Edit")/@Model.cards[j].Id">Edit</a>
                                 </div>
+                                </a>
                             </div>
                         }
                     }
                 </div>
-                <div class="px-2 py-1"><button data-toggle="ajax-modal" data-target="#addCard" data-url="@Url.Action("CreateCard")">Add Card</button></div>
+                <div class="px-2 py-1"><button class="btn btn-primary" data-toggle="ajax-modal" data-target="#addCard" data-url="@Url.Action("CreateCard")">Add Card</button></div>
             </div>
         </div>
     }
 </div>
 
 @section scripts {
-    <script src="~/microsoft/signalr/dist/browser/signalr.min.js"></script>
-    <script src="~/js/SignalR.js"></script>
     <script type="text/javascript">
+
         @{
             string statusToDragula = "";
         }
-            $(document).ready(function () {
-                    @foreach (var stat in Model.status)
-                    {
-                        statusToDragula += stat + ",";
-                    }
-                    dragula([@statusToDragula]);
 
-            });
+        @foreach (var stat in Model.status)
+        {
+            statusToDragula += stat + ",";
+        }
 
+        var dragulaColumns = [@statusToDragula];
     </script>
+    <script src="~/lib/microsoft/signalr/dist/browser/signalr.min.js"></script>
+    <script src="~/js/SignalR.js"></script>
+
 }

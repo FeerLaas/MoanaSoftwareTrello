@@ -101,10 +101,8 @@ namespace MoanaSoftwareTrello.Controllers
             token = HttpContext.Session.GetString("jwt");
             if (token is null) return RedirectToAction("Index", "Login");
 
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
+            
             try
             {
                 var card = await _apiService.GetCardById(id.ToString(), token);
@@ -117,16 +115,14 @@ namespace MoanaSoftwareTrello.Controllers
             }
         }
         [HttpPost]
-        public async Task<IActionResult> EditCard(GetCardResponse card)
+        public async Task<IActionResult> EditCard(GetCardResponse card, bool pos = false)
         {
             token = HttpContext.Session.GetString("jwt");
             if (token is null) return RedirectToAction("Index", "Login");
 
 
-            if (card == null)
-            {
-                return NotFound();
-            }
+            if (card == null)  return NotFound();
+            
             UpdateCardRequest updateCard = new UpdateCardRequest();
             GetCardResponse originalCard;
             try
@@ -138,15 +134,24 @@ namespace MoanaSoftwareTrello.Controllers
             {
                 return NotFound();
             }
-            // load old data
-            updateCard.Id = originalCard.Id;
-            updateCard.Status = originalCard.Status;
-            updateCard.Position = originalCard.Position;
-            updateCard.AsigneeId = originalCard.AsigneeId;
 
-            // update data
-            updateCard.Title = card.Title;
-            updateCard.Description = card.Description;
+            updateCard.Id = originalCard.Id;
+            if (pos)
+            {
+                updateCard.Title = originalCard.Title;
+                updateCard.Description = originalCard.Description;
+                updateCard.AsigneeId = originalCard.AsigneeId;
+                updateCard.Position = card.Position;
+                updateCard.Status = card.Status;
+            }
+            else
+            {
+                updateCard.Title = card.Title;
+                updateCard.Description = card.Description;
+                updateCard.AsigneeId = originalCard.AsigneeId;
+                updateCard.Position = originalCard.Position;
+                updateCard.Status = originalCard.Status;
+            }
 
             try
             {

@@ -5,7 +5,7 @@
 
 $(function () {
     var PlaceHolderElement = $('#modalLocation');
-    $('button[data-toggle="ajax-modal"]').click(function (e) {
+    $('a[data-toggle="ajax-modal"]').click(function (e) {
         var url = $(this).data('url');
         $.get(url).done(function (data) {
             PlaceHolderElement.html(data);

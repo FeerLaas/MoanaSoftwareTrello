@@ -7,3 +7,8 @@
 .content{
     min-height:15px;
 }
+.max-vh {
+    max-height: 80vh;
+    overflow: scroll;
+    overflow-x: hidden;
+}
