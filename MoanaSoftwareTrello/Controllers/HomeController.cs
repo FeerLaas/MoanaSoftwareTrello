@@ -12,10 +12,13 @@ namespace MoanaSoftwareTrello.Controllers
         private readonly ILogger<HomeController> _logger;
         private ApiService _apiService;
         public string[] Status;
+        private string? token;
         public HomeController(ILogger<HomeController> logger, ApiService apiService)
         {
             _logger = logger;
             _apiService = apiService;
+            
+
             Status = new string[] { "Pending", "In_progress", "Blocked", "Done" };
 
         }
@@ -23,12 +26,13 @@ namespace MoanaSoftwareTrello.Controllers
         public async Task<IActionResult> Index()
         {
             List<GetAllCardResponse> cards;
-            if (HttpContext.Session.GetString("jwt") is null) return RedirectToAction("Index", "Login");
-            var value = HttpContext.Session.GetString("jwt");
+            token = HttpContext.Session.GetString("jwt");
+            if (token is null) return RedirectToAction("Index", "Login");
+            
 
             try
             {
-                cards = await _apiService.GetAllCard(value);
+                cards = await _apiService.GetAllCard(token);
                 dynamic model = new ExpandoObject();
                 model.cards = cards;
                 model.status = Status;
@@ -41,6 +45,30 @@ namespace MoanaSoftwareTrello.Controllers
             }
             return View();
         }
+        [HttpGet]
+        public IActionResult CreateCard()
+        {
+            AddCardRequest card = new AddCardRequest();
+            return PartialView("CreateCard", card);
+        }
+        [HttpPost]
+        public async Task<IActionResult> CreateCard(AddCardRequest card)
+        {
+            token = HttpContext.Session.GetString("jwt");
+            if (token is null) return RedirectToAction("Index", "Login");
+            try
+            {
+               await _apiService.CreateCard(card,token);
+                ViewBag.info = "Success: Create Card";
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
+            }
+
+            return PartialView("CreateCard", card);
+        }
+
 
         public IActionResult Privacy()
         {

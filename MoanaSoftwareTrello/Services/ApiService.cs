@@ -38,6 +38,10 @@ namespace MoanaSoftwareTrello.Services
         {
             return await swc.GetByIdAsync(cardId, token);
         }
+        public async Task CreateCard(AddCardRequest card,string token)
+        {
+            await swc.AddAsync(card, token);
+        }
         //public Task StartAsync(CancellationToken cancellationToken)
         //{
         //    swc = new swaggerClient("http://193.201.187.29:84", new HttpClient());
