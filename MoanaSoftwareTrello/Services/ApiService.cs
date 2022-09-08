@@ -5,9 +5,9 @@ namespace MoanaSoftwareTrello.Services
     public class ApiService
     {
         private swaggerClient swc;
-        public ApiService()
+        public ApiService(IConfiguration configuration)
         {
-            swc = new swaggerClient("http://193.201.187.29:84", new HttpClient());
+            swc = new swaggerClient(configuration.GetValue<string>("ApiUrl:Path"), new HttpClient());
         }
         public async Task<SignInResponse> Login(User loginUser)
         {
