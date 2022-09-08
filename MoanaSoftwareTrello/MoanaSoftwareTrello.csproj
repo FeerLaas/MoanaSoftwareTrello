@@ -28,9 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <OpenApiReference Include="OpenAPIs\swagger.json" CodeGenerator="NSwagCSharp">
-      <SourceUri>http://193.201.187.29:84/info/swagger</SourceUri>
-    </OpenApiReference>
+    <None Include="OpenAPIs\swagger.json" />
   </ItemGroup>
 
 </Project>

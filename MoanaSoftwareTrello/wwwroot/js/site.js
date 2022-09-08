@@ -20,6 +20,7 @@ $(function () {
             var sendData = form.serialize();
             $.post(actionUrl, sendData).done(function (d) {
                 PlaceHolderElement.find('.modal').modal('hide');
+                
             })
         }
         else {

@@ -14,7 +14,7 @@
                     {
                         @if ((int)Model.cards[j].Status == i)
                         {
-                            <div class="card" style="order: @Model.cards[j].Position" id="@Model.cards[j].Id">
+                            <div class="card" data-order="@Model.cards[j].Position" id="@Model.cards[j].Id">
                                 <a data-toggle="ajax-modal" data-target="#editCard" data-url="@Url.Action("Edit")/@Model.cards[j].Id">
                                 <div class="card-body">
                                     <h5 class="card-title">@Model.cards[j].Title</h5>
@@ -26,7 +26,7 @@
                         }
                     }
                 </div>
-                <div class="px-2 py-1"><button class="btn btn-primary" data-toggle="ajax-modal" data-target="#addCard" data-url="@Url.Action("CreateCard")">Add Card</button></div>
+                <div class="px-2 py-1"><a class="btn btn-primary" data-toggle="ajax-modal" data-target="#addCard" data-url="@Url.Action("CreateCard")">Add Card</a></div>
             </div>
         </div>
     }
@@ -34,17 +34,25 @@
 
 @section scripts {
     <script type="text/javascript">
-
+        
         @{
-            string statusToDragula = "";
+            var statusToDragula = "";
         }
-
         @foreach (var stat in Model.status)
         {
             statusToDragula += stat + ",";
         }
 
         var dragulaColumns = [@statusToDragula];
+
+
+
+
+        var columns = @Html.Raw(Json.Serialize(Model.status));
+        
+        
+        const updateCardPosUrl = "@Url.Action("EditCard")";
+
     </script>
     <script src="~/lib/microsoft/signalr/dist/browser/signalr.min.js"></script>
     <script src="~/js/SignalR.js"></script>

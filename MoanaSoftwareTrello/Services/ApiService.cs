@@ -2,7 +2,7 @@
 
 namespace MoanaSoftwareTrello.Services
 {
-    public class ApiService //: IHostedService
+    public class ApiService
     {
         private swaggerClient swc;
         public ApiService()

@@ -17,36 +17,7 @@ namespace MoanaSoftwareTrello.Controllers
         {
             _logger = logger;
             _apiService = apiService;
-            
-
             Status = new string[] { "Pending", "In_progress", "Blocked", "Done" };
-
-            //var connection = new HubConnectionBuilder()
-            //    .WithUrl("https://localhost/update-product")
-            //    .Build();
-            //connection.Closed += async (error) =>
-            //{
-            //    await Task.Delay(new Random().Next(0, 5) * 1000);
-            //    await connection.StartAsync();
-            //};
-
-            //connection.On<string>("Test", x =>
-            //{
-
-
-
-
-            //});
-
-            //try
-            //{
-            //    await connection.StartAsync();
-
-            //}
-            //catch (Exception ex)
-            //{
-
-            //}
 
         }
         //need adding authorizated
@@ -61,7 +32,7 @@ namespace MoanaSoftwareTrello.Controllers
             {
                 cards = await _apiService.GetAllCard(token);
                 dynamic model = new ExpandoObject();
-                model.cards = cards;
+                model.cards = cards.OrderBy(x=>x.Position).ToList();
                 model.status = Status;
                 return View(model);
 
