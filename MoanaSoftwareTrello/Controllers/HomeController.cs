@@ -21,6 +21,33 @@ namespace MoanaSoftwareTrello.Controllers
 
             Status = new string[] { "Pending", "In_progress", "Blocked", "Done" };
 
+            //var connection = new HubConnectionBuilder()
+            //    .WithUrl("https://localhost/update-product")
+            //    .Build();
+            //connection.Closed += async (error) =>
+            //{
+            //    await Task.Delay(new Random().Next(0, 5) * 1000);
+            //    await connection.StartAsync();
+            //};
+
+            //connection.On<string>("Test", x =>
+            //{
+
+
+
+
+            //});
+
+            //try
+            //{
+            //    await connection.StartAsync();
+
+            //}
+            //catch (Exception ex)
+            //{
+
+            //}
+
         }
         //need adding authorizated
         public async Task<IActionResult> Index()
@@ -68,8 +95,71 @@ namespace MoanaSoftwareTrello.Controllers
 
             return PartialView("CreateCard", card);
         }
+        [HttpGet]
+        public async Task<IActionResult> Edit(Guid? id)
+        {
+            token = HttpContext.Session.GetString("jwt");
+            if (token is null) return RedirectToAction("Index", "Login");
+
+            if (id == null)
+            {
+                return NotFound();
+            }
+            try
+            {
+                var card = await _apiService.GetCardById(id.ToString(), token);
+                return PartialView("EditCard", card );
+
+            }
+            catch (Exception e)
+            {
+                return NotFound();
+            }
+        }
+        [HttpPost]
+        public async Task<IActionResult> EditCard(GetCardResponse card)
+        {
+            token = HttpContext.Session.GetString("jwt");
+            if (token is null) return RedirectToAction("Index", "Login");
 
 
+            if (card == null)
+            {
+                return NotFound();
+            }
+            UpdateCardRequest updateCard = new UpdateCardRequest();
+            GetCardResponse originalCard;
+            try
+            {
+                originalCard = await _apiService.GetCardById(card.Id.ToString(), token);
+
+            }
+            catch (Exception e)
+            {
+                return NotFound();
+            }
+            // load old data
+            updateCard.Id = originalCard.Id;
+            updateCard.Status = originalCard.Status;
+            updateCard.Position = originalCard.Position;
+            updateCard.AsigneeId = originalCard.AsigneeId;
+
+            // update data
+            updateCard.Title = card.Title;
+            updateCard.Description = card.Description;
+
+            try
+            {
+                await _apiService.UpdateCard(updateCard, token);
+                return PartialView("EditCard", card);
+
+            }
+            catch (Exception e)
+            {
+                ViewBag.Error = e.Message;
+            }
+            return PartialView("EditCard", card);
+        }
         public IActionResult Privacy()
         {
             return View();

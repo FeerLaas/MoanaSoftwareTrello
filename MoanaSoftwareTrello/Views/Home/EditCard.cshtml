@@ -1,5 +1,35 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model GetCardResponse
 @{
 }
+<div class="modal fade" id="editCard">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="editCardLabel">Edit Card</h4>
+                <button type="button" class="btn-close" data-dismiss="modal">
+                </button>
+            </div>
+            <div class="modal-body">
+                <form asp-action="EditCard" id="modifyCard">
+                    <input asp-for="Id" hidden />
+                    <div class="form-group">
+                        <label asp-for="Title"></label>
+                        <input asp-for="Title" type="text" class="form-control" required />
+                        <span asp-validation-for="Title" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Description"></label>
+                        <input asp-for="Description" type="text" class="form-control" required />
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+                    @*need assigneed*@
+                </form>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Delete</button>
+                <button type="button" class="btn btn-primary" data-save="modal">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+

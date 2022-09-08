@@ -1,4 +1,5 @@
 using MoanaSoftwareTrello.Services;
+using MoanaSoftwareTrello.SignalRHub;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,6 +29,9 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+
+app.MapHub<MainHub>("/signalr");
 
 app.UseAuthorization();
 

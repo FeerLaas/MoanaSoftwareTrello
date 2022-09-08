@@ -1,6 +1,35 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
+@*teszt*@
+<div class="container">
+    <div class="row">&nbsp;</div>
+    <div class="row">
+        <div class="col-2">User</div>
+        <div class="col-4"><input type="text" id="userInput" /></div>
+    </div>
+    <div class="row">
+        <div class="col-2">Message</div>
+        <div class="col-4"><input type="text" id="messageInput" /></div>
+    </div>
+    <div class="row">&nbsp;</div>
+    <div class="row">
+        <div class="col-6">
+            <input type="button" id="sendButton" value="Send Message" />
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        <hr />
+    </div>
+</div>
+<div class="row">
+    <div class="col-6">
+        <ul id="messagesList"></ul>
+    </div>
+</div>
+@*teszt*@
 
 <div id="modalLocation"></div>
 <div class="row">
@@ -14,15 +43,13 @@
                     {
                         @if ((int)Model.cards[j].Status == i)
                         {
-                            <!-- card -->
                             <div class="card" style="order: @Model.cards[j].Position" id="@Model.cards[j].Id">
                                 <div class="card-body">
                                     <h5 class="card-title">@Model.cards[j].Title</h5>
                                     <p class="card-text">@Model.cards[j].Description</p>
-                                    <a href="#" class="card-link">Edit</a>
+                                    <button data-toggle="ajax-modal" data-target="#editCard" data-url="@Url.Action("Edit")/@Model.cards[j].Id">Edit</button>
                                 </div>
                             </div>
-                            <!-- card -->
                         }
                     }
                 </div>
@@ -33,18 +60,20 @@
 </div>
 
 @section scripts {
-
+    <script src="~/microsoft/signalr/dist/browser/signalr.min.js"></script>
+    <script src="~/js/SignalR.js"></script>
     <script type="text/javascript">
         @{
-        string statusToDragula = "";
-    }
-        $(document).ready(function () {
-    @foreach (var stat in Model.status)
-    {
-        statusToDragula += stat + ",";
-    }
-                dragula([@statusToDragula]);
+            string statusToDragula = "";
+        }
+            $(document).ready(function () {
+                    @foreach (var stat in Model.status)
+                    {
+                        statusToDragula += stat + ",";
+                    }
+                    dragula([@statusToDragula]);
 
-        });
+            });
 
-</script>}
+    </script>
+}

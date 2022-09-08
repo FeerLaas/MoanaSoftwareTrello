@@ -34,13 +34,17 @@ namespace MoanaSoftwareTrello.Services
         {
             return (List<GetAllCardResponse>)await swc.GetAllCardAsync(token);
         }
-        public async Task<GetCardResponse> GetCardById(Guid? cardId, string token)
+        public async Task<GetCardResponse> GetCardById(string cardId, string token)
         {
             return await swc.GetByIdAsync(cardId, token);
         }
         public async Task CreateCard(AddCardRequest card,string token)
         {
             await swc.AddAsync(card, token);
+        }
+        public async Task UpdateCard(UpdateCardRequest card, string token)
+        {
+            await swc.UpdateAsync(card, token);
         }
         //public Task StartAsync(CancellationToken cancellationToken)
         //{
