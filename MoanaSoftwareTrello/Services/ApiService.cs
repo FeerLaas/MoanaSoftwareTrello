@@ -12,7 +12,7 @@ namespace MoanaSoftwareTrello.Services
         public async Task<SignInResponse> Login(User loginUser)
         {
             SignInResponse t;
-            UserCredentialRequest user = new UserCredentialRequest();
+            var user = new UserCredentialRequest();
             user.Email = loginUser.Email;
             user.Password = loginUser.Password;
             return await swc.SignInAsync(user);
@@ -23,7 +23,7 @@ namespace MoanaSoftwareTrello.Services
         {
             await Task.Run(async () =>
             {
-                UserCredentialRequest user = new UserCredentialRequest();
+                var user = new UserCredentialRequest();
                 user.Email = sourceUser.Email;
                 user.Password = sourceUser.Password;
                 await swc.SignUpAsync(user);

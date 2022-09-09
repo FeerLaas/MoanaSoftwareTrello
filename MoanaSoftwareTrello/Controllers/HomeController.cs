@@ -49,7 +49,7 @@ namespace MoanaSoftwareTrello.Controllers
         [HttpGet]
         public IActionResult CreateCard()
         {
-            AddCardRequest card = new AddCardRequest();
+            var card = new AddCardRequest();
             return PartialView("CreateCard", card);
         }
         [HttpPost]
@@ -104,7 +104,7 @@ namespace MoanaSoftwareTrello.Controllers
 
             if (card == null)  return NotFound();
             
-            UpdateCardRequest updateCard = new UpdateCardRequest();
+            var updateCard = new UpdateCardRequest();
             GetCardResponse originalCard;
             try
             {
